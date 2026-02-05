@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans text-gray-900;
+  }
+}
+
+@layer components {
+  .glow-red {
+    @apply shadow-lg shadow-red-600/20;
+  }
+
+  .btn-primary {
+    @apply px-8 py-4 bg-brand-red text-white font-bold rounded-lg hover:bg-brand-dark-red transition-all duration-300 transform hover:-translate-y-1 glow-red active:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply px-8 py-4 border-2 border-brand-red text-brand-red font-bold rounded-lg hover:bg-brand-red hover:text-white transition-all duration-300;
+  }
+
+  .section-heading {
+    @apply text-4xl md:text-5xl font-bold text-brand-black leading-tight;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-brand-black to-brand-red bg-clip-text text-transparent;
+  }
+
+  .badge-credential {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-brand-black/10 rounded-full border border-brand-red/30 text-sm font-semibold text-brand-black;
+  }
+}
