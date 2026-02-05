@@ -4,10 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        'brand-black': '#0a0e27',
+        'brand-black': '#1a1a1a',
+        'brand-dark-gray': '#2d2d2d',
         'brand-red': '#dc2626',
         'brand-dark-red': '#7f1d1d',
-        'brand-silver': '#e5e7eb',
+        'brand-silver': '#f5f5f5',
         'brand-gray': '#6b7280',
       },
       fontFamily: {

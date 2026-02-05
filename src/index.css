@@ -20,11 +20,11 @@
   }
 
   .btn-primary {
-    @apply px-8 py-4 bg-brand-red text-white font-bold rounded-lg hover:bg-brand-dark-red transition-all duration-300 transform hover:-translate-y-1 glow-red active:translate-y-0;
+    @apply px-8 py-4 bg-brand-red text-white font-bold rounded-lg hover:bg-brand-dark-red transition-all duration-300 transform hover:-translate-y-1 glow-red active:translate-y-0 shadow-lg shadow-red-600/30;
   }
 
   .btn-secondary {
-    @apply px-8 py-4 border-2 border-brand-red text-brand-red font-bold rounded-lg hover:bg-brand-red hover:text-white transition-all duration-300;
+    @apply px-8 py-4 border-2 border-brand-red text-brand-red font-bold rounded-lg hover:bg-brand-red hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-red-600/20;
   }
 
   .section-heading {

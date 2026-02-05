@@ -2,16 +2,22 @@ import { ArrowRight, Award, Zap, TrendingUp, Shield, CheckCircle, Users, BookOpe
 
 export default function Funnel() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-brand-silver/30 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white">
+      {/* Logo Header */}
+      <div className="bg-white border-b border-gray-200 py-8 px-4">
+        <div className="max-w-7xl mx-auto flex justify-center">
+          <img
+            src="https://storage.googleapis.com/msgsndr/ToguJXnhzs0vU5hnXfdM/media/6984027e0708e4c8ffbdc430.png"
+            alt="BlackBelt Strength"
+            className="h-16 object-contain"
+          />
+        </div>
+      </div>
+
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-brand-black/5">
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-brand-black rounded-lg flex items-center justify-center">
-              <span className="text-brand-red font-bold text-lg">⚫</span>
-            </div>
-            <span className="font-bold text-xl text-brand-black">BLACKBELT STRENGTH</span>
-          </div>
+          <span className="font-bold text-xl text-gray-900">BLACKBELT STRENGTH</span>
           <button className="btn-primary text-sm">GET ACCESS</button>
         </div>
       </nav>
@@ -519,12 +525,7 @@ export default function Funnel() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-12">
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-brand-red rounded-lg flex items-center justify-center">
-                  <span className="text-brand-black font-bold">⚫</span>
-                </div>
-                <span className="font-bold">BLACKBELT STRENGTH</span>
-              </div>
+              <span className="font-bold text-lg mb-4 block">BLACKBELT STRENGTH</span>
               <p className="text-sm">Strength conditioning designed for BJJ athletes. By a black belt, for black belts.</p>
             </div>
 
