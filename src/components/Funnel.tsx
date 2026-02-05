@@ -2,31 +2,31 @@ import { ArrowRight, Award, Zap, TrendingUp, Shield, CheckCircle, Users, BookOpe
 
 export default function Funnel() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white">
+    <div className="min-h-screen bg-white">
       {/* Logo Header */}
-      <div className="bg-white border-b border-gray-200 py-8 px-4">
+      <div className="bg-brand-black border-b border-brand-black py-12 px-4">
         <div className="max-w-7xl mx-auto flex justify-center">
           <img
             src="https://storage.googleapis.com/msgsndr/ToguJXnhzs0vU5hnXfdM/media/6984027e0708e4c8ffbdc430.png"
             alt="BlackBelt Strength"
-            className="h-16 object-contain"
+            className="h-24 object-contain"
           />
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-black/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <span className="font-bold text-xl text-gray-900">BLACKBELT STRENGTH</span>
+          <span className="font-bold text-xl text-brand-black">BLACKBELT STRENGTH</span>
           <button className="btn-primary text-sm">GET ACCESS</button>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="min-h-[85vh] flex items-center justify-center px-4 py-20 bg-gradient-to-br from-brand-black via-gray-900 to-brand-black relative overflow-hidden">
+      <section className="min-h-[85vh] flex items-center justify-center px-4 py-20 bg-gradient-to-br from-brand-black to-brand-dark-gray relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-20 right-10 w-72 h-72 bg-brand-red rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 left-10 w-96 h-96 bg-gray-700 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 left-10 w-96 h-96 bg-brand-dark-gray rounded-full blur-3xl"></div>
         </div>
 
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
@@ -86,7 +86,7 @@ export default function Funnel() {
       </section>
 
       {/* Credentials Section */}
-      <section className="py-20 px-4 bg-white border-b border-brand-black/5">
+      <section className="py-20 px-4 bg-white border-b border-black/5">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="section-heading mb-6">The Coach Behind The System</h2>
@@ -118,7 +118,7 @@ export default function Funnel() {
       </section>
 
       {/* The Problem Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-brand-black/5 to-brand-red/5">
+      <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
@@ -232,7 +232,7 @@ export default function Funnel() {
       </section>
 
       {/* What's Included Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-brand-silver/20 to-white">
+      <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="section-heading text-center mb-16">
             What You Get Inside
@@ -261,7 +261,7 @@ export default function Funnel() {
                 desc: 'Train with other serious BJJ athletes. Share wins. Stay accountable.',
               },
             ].map((item, i) => (
-              <div key={i} className="bg-white p-8 rounded-xl border-2 border-brand-black/5 hover:border-brand-red hover:shadow-lg transition-all duration-300">
+              <div key={i} className="bg-white p-8 rounded-xl border-2 border-black/5 hover:border-brand-red hover:shadow-lg transition-all duration-300">
                 <item.icon className="w-12 h-12 text-brand-red mb-4" />
                 <h3 className="font-bold text-brand-black mb-2 text-lg">{item.title}</h3>
                 <p className="text-brand-gray text-sm">{item.desc}</p>
@@ -299,7 +299,7 @@ export default function Funnel() {
                 ],
               },
             ].map((section, i) => (
-              <div key={i} className="bg-white p-8 rounded-xl border border-brand-black/10">
+              <div key={i} className="bg-white p-8 rounded-xl border border-black/10">
                 <h3 className="font-bold text-brand-black mb-6 text-lg flex items-center gap-2">
                   <span className="w-2 h-2 bg-brand-red rounded-full"></span>
                   {section.title}
@@ -347,7 +347,7 @@ export default function Funnel() {
             ].map((testimonial, i) => (
               <div
                 key={i}
-                className="bg-gradient-to-br from-brand-black/5 to-brand-red/5 p-8 rounded-xl border border-brand-red/20 hover:border-brand-red hover:shadow-lg transition-all duration-300"
+                className="bg-white p-8 rounded-xl border border-black/10 hover:border-brand-red hover:shadow-lg transition-all duration-300"
               >
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(5)].map((_, j) => (
@@ -355,7 +355,7 @@ export default function Funnel() {
                   ))}
                 </div>
                 <p className="text-brand-black mb-6 italic leading-relaxed">"{testimonial.quote}"</p>
-                <div className="border-t border-brand-black/10 pt-4">
+                <div className="border-t border-black/10 pt-4">
                   <p className="font-bold text-brand-black">{testimonial.name}</p>
                   <p className="text-sm text-brand-gray mb-2">{testimonial.title}</p>
                   <p className="text-sm font-bold text-brand-red">{testimonial.improvement}</p>
@@ -367,7 +367,7 @@ export default function Funnel() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-brand-black/5 to-brand-red/5">
+      <section className="py-20 px-4 bg-white">
         <div className="max-w-4xl mx-auto">
           <h2 className="section-heading text-center mb-16">Questions? We Have Answers.</h2>
 
@@ -400,7 +400,7 @@ export default function Funnel() {
             ].map((faq, i) => (
               <details
                 key={i}
-                className="group bg-white border border-brand-black/10 rounded-lg p-6 hover:border-brand-red hover:shadow-lg transition-all duration-300 cursor-pointer"
+                className="group bg-white border border-black/10 rounded-lg p-6 hover:border-brand-red hover:shadow-lg transition-all duration-300 cursor-pointer"
               >
                 <summary className="flex items-center justify-between font-bold text-brand-black text-lg list-none">
                   {faq.q}
@@ -456,8 +456,8 @@ export default function Funnel() {
                 key={i}
                 className={`rounded-2xl p-8 border-2 transition-all duration-300 ${
                   plan.popular
-                    ? 'border-brand-red bg-gradient-to-br from-brand-red/10 to-brand-black/5 transform scale-105 shadow-2xl'
-                    : 'border-brand-black/10 bg-white hover:border-brand-red hover:shadow-lg'
+                    ? 'border-brand-red bg-gradient-to-br from-brand-red/10 to-white transform scale-105 shadow-2xl'
+                    : 'border-black/10 bg-white hover:border-brand-red hover:shadow-lg'
                 }`}
               >
                 {plan.popular && (
