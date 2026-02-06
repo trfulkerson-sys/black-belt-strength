@@ -1,0 +1,2145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Belt Strength - Master Plan Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0A0A0A;
+            --red: #C41E3A;
+            --silver: #C0C0C0;
+            --off-white: #F5F5F5;
+            --dark-grey: #1a1a1a;
+            --green: #4CAF50;
+            --yellow: #FFC107;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--black);
+            color: var(--off-white);
+            line-height: 1.6;
+        }
+
+        /* NAVIGATION */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.98);
+            padding: 15px 30px;
+            border-bottom: 2px solid var(--red);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--silver);
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--red);
+        }
+
+        .progress-summary {
+            font-size: 14px;
+            color: var(--silver);
+        }
+
+        .progress-summary span {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1400px;
+            margin: 80px auto 40px;
+            padding: 0 30px;
+        }
+
+        /* SECTION STYLING */
+        .section {
+            background: var(--dark-grey);
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--red);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            letter-spacing: 2px;
+        }
+
+        .section-title span {
+            color: var(--red);
+        }
+
+        .toggle-icon {
+            font-size: 24px;
+            color: var(--red);
+            transition: transform 0.3s;
+        }
+
+        .section-content {
+            max-height: 10000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .section-content.collapsed {
+            max-height: 0;
+        }
+
+        .section.collapsed .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        /* BUSINESS MODEL TIERS */
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tier-card {
+            background: var(--black);
+            padding: 25px;
+            border-radius: 8px;
+            border: 2px solid var(--silver);
+            transition: border-color 0.3s;
+        }
+
+        .tier-card:hover {
+            border-color: var(--red);
+        }
+
+        .tier-card.priority {
+            border-color: var(--red);
+        }
+
+        .tier-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            color: var(--red);
+            margin-bottom: 10px;
+        }
+
+        .tier-price {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--off-white);
+            margin-bottom: 15px;
+        }
+
+        .tier-audience {
+            font-size: 14px;
+            color: var(--silver);
+            margin-bottom: 15px;
+        }
+
+        .tier-features {
+            list-style: none;
+            font-size: 13px;
+            color: var(--silver);
+        }
+
+        .tier-features li {
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .tier-features li::before {
+            content: '✓';
+            color: var(--red);
+            position: absolute;
+            left: 0;
+            font-weight: 900;
+        }
+
+        /* FLOWCHART */
+        .flowchart {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .flow-box {
+            background: var(--black);
+            border: 2px solid var(--silver);
+            border-radius: 8px;
+            padding: 20px;
+            min-width: 180px;
+            text-align: center;
+            position: relative;
+        }
+
+        .flow-box.highlight {
+            border-color: var(--red);
+            background: rgba(196, 30, 58, 0.1);
+        }
+
+        .flow-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            color: var(--red);
+            margin-bottom: 10px;
+        }
+
+        .flow-desc {
+            font-size: 13px;
+            color: var(--silver);
+        }
+
+        .flow-arrow {
+            color: var(--red);
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--red);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: -34px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--red);
+            border: 4px solid var(--black);
+        }
+
+        .timeline-marker.completed {
+            background: var(--green);
+        }
+
+        .timeline-month {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            color: var(--red);
+            margin-bottom: 10px;
+        }
+
+        .timeline-phase {
+            font-size: 14px;
+            color: var(--yellow);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timeline-tasks {
+            background: var(--black);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        /* CHECKLIST */
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            border: 2px solid var(--silver);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .checkbox:hover {
+            border-color: var(--red);
+        }
+
+        .checkbox.checked {
+            background: var(--red);
+            border-color: var(--red);
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-weight: 900;
+        }
+
+        .task-text {
+            flex: 1;
+            color: var(--silver);
+            line-height: 1.5;
+        }
+
+        .task-text.completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .priority-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .priority-badge.p1 {
+            background: var(--red);
+            color: white;
+        }
+
+        .priority-badge.p2 {
+            background: var(--yellow);
+            color: var(--black);
+        }
+
+        .priority-badge.p3 {
+            background: var(--silver);
+            color: var(--black);
+        }
+
+        /* PROGRESS BAR */
+        .progress-container {
+            background: var(--black);
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+            border: 2px solid var(--silver);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--red) 0%, #ff4d6d 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* REVENUE TRACKER */
+        .revenue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .revenue-card {
+            background: var(--black);
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid var(--silver);
+            text-align: center;
+        }
+
+        .revenue-label {
+            font-size: 14px;
+            color: var(--silver);
+            margin-bottom: 10px;
+        }
+
+        .revenue-amount {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            color: var(--red);
+        }
+
+        /* TOOLS TABLE */
+        .tools-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .tools-table th {
+            background: var(--black);
+            padding: 15px;
+            text-align: left;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            color: var(--red);
+            border-bottom: 2px solid var(--red);
+        }
+
+        .tools-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--dark-grey);
+            color: var(--silver);
+        }
+
+        .tools-table tr:hover {
+            background: rgba(196, 30, 58, 0.05);
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-badge.active {
+            background: var(--green);
+            color: white;
+        }
+
+        .status-badge.planned {
+            background: var(--yellow);
+            color: var(--black);
+        }
+
+        /* CONTENT CALENDAR */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .content-card {
+            background: var(--black);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--red);
+        }
+
+        .content-type {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            color: var(--red);
+            margin-bottom: 10px;
+        }
+
+        .content-frequency {
+            font-size: 14px;
+            color: var(--silver);
+            margin-bottom: 15px;
+        }
+
+        .content-examples {
+            font-size: 13px;
+            color: var(--silver);
+            font-style: italic;
+        }
+
+        /* NOTES SECTION */
+        .notes-box {
+            background: var(--black);
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid var(--yellow);
+            margin-top: 20px;
+        }
+
+        .notes-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            color: var(--yellow);
+            margin-bottom: 10px;
+        }
+
+        .notes-text {
+            color: var(--silver);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .tier-grid,
+            .revenue-grid,
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flowchart {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* UTILITY */
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .subtitle {
+            color: var(--silver);
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav class="nav">
+        <div class="logo">BLACK BELT <span>STRENGTH</span></div>
+        <ul class="nav-links">
+            <li><a href="#business-model">Model</a></li>
+            <li><a href="#customer-journey">Journey</a></li>
+            <li><a href="#funnels">Funnels</a></li>
+            <li><a href="#timeline">Timeline</a></li>
+            <li><a href="#content">Content</a></li>
+            <li><a href="#marketing">Marketing</a></li>
+            <li><a href="#revenue">Revenue</a></li>
+            <li><a href="#tools">Tools</a></li>
+            <li><a href="#tasks">Tasks</a></li>
+        </ul>
+        <div class="progress-summary">
+            Overall Progress: <span id="overall-progress">0%</span>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        
+        <!-- HERO SECTION -->
+        <div style="text-align: center; margin-bottom: 60px;">
+            <h1 style="font-family: 'Bebas Neue', sans-serif; font-size: 64px; margin-bottom: 20px;">
+                MASTER PLAN <span style="color: var(--red);">DASHBOARD</span>
+            </h1>
+            <p style="font-size: 20px; color: var(--silver); margin-bottom: 30px;">
+                Complete business blueprint for Black Belt Strength
+            </p>
+            <div class="progress-container" style="max-width: 800px; margin: 0 auto;">
+                <div class="progress-bar" id="main-progress-bar" style="width: 0%;">0%</div>
+            </div>
+        </div>
+
+        <!-- SECTION 1: BUSINESS MODEL OVERVIEW -->
+        <div class="section" id="business-model">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2 class="section-title">BUSINESS <span>MODEL</span> OVERVIEW</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p class="subtitle">Complete tier structure with pricing, audience, and revenue potential</p>
+                
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 24px; margin-bottom: 20px; color: var(--red);">
+                    ATHLETE PROGRAMS (B2C)
+                </h3>
+                
+                <div class="tier-grid">
+                    <div class="tier-card">
+                        <div class="tier-label">FREE TIER</div>
+                        <div class="tier-price">$0</div>
+                        <div class="tier-audience">Lead Generation</div>
+                        <ul class="tier-features">
+                            <li>Free ebook download</li>
+                            <li>YouTube content</li>
+                            <li>Email newsletter</li>
+                            <li>Goal: Build email list</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tier-card priority">
+                        <div class="tier-label">FOUNDATION MEMBERSHIP</div>
+                        <div class="tier-price">$37/mo</div>
+                        <div class="tier-audience">Hobbyists & Beginners</div>
+                        <ul class="tier-features">
+                            <li>Monthly workout programs</li>
+                            <li>Exercise video library</li>
+                            <li>Community access</li>
+                            <li>Monthly group Q&A</li>
+                            <li>Goal: 300-500 members</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tier-card priority">
+                        <div class="tier-label">8-WEEK FOUNDATION</div>
+                        <div class="tier-price">$147</div>
+                        <div class="tier-audience">Serious Hobbyists</div>
+                        <ul class="tier-features">
+                            <li>16 complete workouts</li>
+                            <li>Video demonstrations</li>
+                            <li>Community access</li>
+                            <li>One group Q&A call</li>
+                            <li>Lifetime access</li>
+                            <li>Goal: 20-50 sales/mo</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tier-card">
+                        <div class="tier-label">12-WEEK PERFORMANCE</div>
+                        <div class="tier-price">$397</div>
+                        <div class="tier-audience">Competitors</div>
+                        <ul class="tier-features">
+                            <li>24 workouts (2x/week)</li>
+                            <li>Bi-weekly coaching calls</li>
+                            <li>Form check reviews</li>
+                            <li>Competition prep focus</li>
+                            <li>Goal: 10-15 sales/mo</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tier-card">
+                        <div class="tier-label">PERFORMANCE MEMBERSHIP</div>
+                        <div class="tier-price">$97/mo</div>
+                        <div class="tier-audience">Serious Competitors</div>
+                        <ul class="tier-features">
+                            <li>Everything in Foundation</li>
+                            <li>Bi-weekly coaching calls</li>
+                            <li>Form check reviews</li>
+                            <li>Specialty programs</li>
+                            <li>Goal: 50-100 members</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tier-card">
+                        <div class="tier-label">ELITE COACHING</div>
+                        <div class="tier-price">$297/mo</div>
+                        <div class="tier-audience">Elite Athletes</div>
+                        <ul class="tier-features">
+                            <li>Weekly 1-on-1 check-ins</li>
+                            <li>Custom programming</li>
+                            <li>Unlimited messaging</li>
+                            <li>Competition strategy</li>
+                            <li>Limited to 5-10 athletes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 24px; margin: 40px 0 20px; color: var(--red);">
+                    GYM OWNER PROGRAMS (B2B) - FUTURE PHASE
+                </h3>
+                
+                <div class="tier-grid">
+                    <div class="tier-card">
+                        <div class="tier-label">FOUNDATION COURSE</div>
+                        <div class="tier-price">$697</div>
+                        <div class="tier-audience">Gym Owners/Instructors</div>
+                        <ul class="tier-features">
+                            <li>S&C system for instructors</li>
+                            <li>Warmup protocols</li>
+                            <li>Injury prevention</li>
+                            <li>Equipment guides</li>
+                            <li>Launch: Year 2</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tier-card">
+                        <div class="tier-label">INSTRUCTOR MASTERMIND</div>
+                        <div class="tier-price">$197/mo</div>
+                        <div class="tier-audience">Ongoing Support</div>
+                        <ul class="tier-features">
+                            <li>Monthly group coaching</li>
+                            <li>Private community</li>
+                            <li>Updated protocols</li>
+                            <li>Expert guest calls</li>
+                            <li>Launch: Year 2</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tier-card">
+                        <div class="tier-label">CERTIFICATION</div>
+                        <div class="tier-price">$2,997</div>
+                        <div class="tier-audience">Serious Coaches</div>
+                        <ul class="tier-features">
+                            <li>12-week program</li>
+                            <li>Weekly 1-on-1 calls</li>
+                            <li>Practical assessments</li>
+                            <li>Certificate upon completion</li>
+                            <li>Launch: Year 2-3</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tier-card">
+                        <div class="tier-label">CUSTOM CONSULTING</div>
+                        <div class="tier-price">$10k+</div>
+                        <div class="tier-audience">Established Gyms</div>
+                        <ul class="tier-features">
+                            <li>Custom S&C system design</li>
+                            <li>Staff training</li>
+                            <li>Equipment + layout</li>
+                            <li>Implementation support</li>
+                            <li>Launch: Year 2+</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="notes-box">
+                    <div class="notes-title">📌 PRICING NOTE</div>
+                    <div class="notes-text">
+                        Pricing is placeholder and needs validation. Test with real customers and adjust based on market response. Start with one-time programs ($147) before adding monthly subscriptions. B2B pricing likely has more room to increase.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: CUSTOMER JOURNEY -->
+        <div class="section" id="customer-journey">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2 class="section-title">CUSTOMER <span>JOURNEY</span> MAPS</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p class="subtitle">How strangers become customers and advocates</p>
+                
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin-bottom: 20px; color: var(--red);">
+                    STRANGER → AWARE → LEAD → CUSTOMER → ADVOCATE
+                </h3>
+                
+                <div class="flowchart">
+                    <div class="flow-box">
+                        <div class="flow-title">STRANGER</div>
+                        <div class="flow-desc">No idea who Nate is</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box highlight">
+                        <div class="flow-title">AWARE</div>
+                        <div class="flow-desc">Sees content on social media, discovers through gym seminar, or finds via search/ads</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box highlight">
+                        <div class="flow-title">ENGAGED</div>
+                        <div class="flow-desc">Follows on Instagram, watches YouTube videos, downloads free ebook</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box highlight">
+                        <div class="flow-title">LEAD</div>
+                        <div class="flow-desc">On email list, receives nurture sequence, considering purchase</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box highlight">
+                        <div class="flow-title">CUSTOMER</div>
+                        <div class="flow-desc">Purchased 8-Week Foundation or joined monthly membership</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <div class="flow-title">ADVOCATE</div>
+                        <div class="flow-desc">Refers friends, posts testimonials, repeat buyer</div>
+                    </div>
+                </div>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin: 40px 0 20px; color: var(--red);">
+                    TOUCHPOINTS AT EACH STAGE
+                </h3>
+
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                    <div style="background: var(--black); padding: 20px; border-radius: 8px; border-left: 4px solid var(--red);">
+                        <h4 style="font-family: 'Bebas Neue', sans-serif; color: var(--red); margin-bottom: 10px;">AWARENESS STAGE</h4>
+                        <ul style="color: var(--silver); font-size: 14px; list-style: none;">
+                            <li>✓ Instagram Reels (3-5x/week)</li>
+                            <li>✓ YouTube Shorts (2-3x/week)</li>
+                            <li>✓ TikTok videos (3-5x/week)</li>
+                            <li>✓ Reddit r/bjj posts (1x/week)</li>
+                            <li>✓ Gym seminars (2-4x/month)</li>
+                            <li>✓ Paid ads (Meta + YouTube)</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: var(--black); padding: 20px; border-radius: 8px; border-left: 4px solid var(--red);">
+                        <h4 style="font-family: 'Bebas Neue', sans-serif; color: var(--red); margin-bottom: 10px;">ENGAGEMENT STAGE</h4>
+                        <ul style="color: var(--silver); font-size: 14px; list-style: none;">
+                            <li>✓ Free ebook download</li>
+                            <li>✓ YouTube long-form videos</li>
+                            <li>✓ Website resources/blog</li>
+                            <li>✓ Email welcome sequence</li>
+                            <li>✓ Social media DMs</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: var(--black); padding: 20px; border-radius: 8px; border-left: 4px solid var(--red);">
+                        <h4 style="font-family: 'Bebas Neue', sans-serif; color: var(--red); margin-bottom: 10px;">LEAD NURTURE STAGE</h4>
+                        <ul style="color: var(--silver); font-size: 14px; list-style: none;">
+                            <li>✓ 5-7 email nurture sequence</li>
+                            <li>✓ Sales page visit</li>
+                            <li>✓ Testimonial videos</li>
+                            <li>✓ FAQ content</li>
+                            <li>✓ Retargeting ads</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: var(--black); padding: 20px; border-radius: 8px; border-left: 4px solid var(--red);">
+                        <h4 style="font-family: 'Bebas Neue', sans-serif; color: var(--red); margin-bottom: 10px;">CUSTOMER STAGE</h4>
+                        <ul style="color: var(--silver); font-size: 14px; list-style: none;">
+                            <li>✓ Welcome to program email</li>
+                            <li>✓ TrainHeroic onboarding</li>
+                            <li>✓ Community access</li>
+                            <li>✓ Progress check-ins</li>
+                            <li>✓ Upsell offers</li>
+                            <li>✓ Testimonial requests</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: FUNNELS -->
+        <div class="section" id="funnels">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2 class="section-title">FUNNEL <span>FLOWCHARTS</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p class="subtitle">Lead generation, sales, and upsell funnels with conversion rates</p>
+                
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin-bottom: 20px; color: var(--red);">
+                    LEAD MAGNET FUNNEL
+                </h3>
+                
+                <div class="flowchart">
+                    <div class="flow-box">
+                        <div class="flow-title">AD/CONTENT</div>
+                        <div class="flow-desc">1,000 people see it</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <div class="flow-title">LANDING PAGE</div>
+                        <div class="flow-desc">200 click (20% CTR)</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box highlight">
+                        <div class="flow-title">OPT-IN</div>
+                        <div class="flow-desc">50 emails (25% conversion)</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <div class="flow-title">EMAIL SEQUENCE</div>
+                        <div class="flow-desc">5-7 emails over 10-14 days</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box highlight">
+                        <div class="flow-title">SALE</div>
+                        <div class="flow-desc">3-5 sales (6-10% of leads)</div>
+                    </div>
+                </div>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin: 40px 0 20px; color: var(--red);">
+                    DIRECT SALES FUNNEL
+                </h3>
+                
+                <div class="flowchart">
+                    <div class="flow-box">
+                        <div class="flow-title">WARM TRAFFIC</div>
+                        <div class="flow-desc">Email list, followers, retargeting</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <div class="flow-title">SALES PAGE</div>
+                        <div class="flow-desc">View long-form sales page</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box highlight">
+                        <div class="flow-title">CHECKOUT</div>
+                        <div class="flow-desc">Add to cart, enter payment</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box highlight">
+                        <div class="flow-title">PURCHASE</div>
+                        <div class="flow-desc">$147 or $37/mo</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <div class="flow-title">ONBOARDING</div>
+                        <div class="flow-desc">Welcome email, TrainHeroic access</div>
+                    </div>
+                </div>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin: 40px 0 20px; color: var(--red);">
+                    UPSELL FUNNEL
+                </h3>
+                
+                <div class="flowchart">
+                    <div class="flow-box">
+                        <div class="flow-title">CUSTOMER</div>
+                        <div class="flow-desc">Purchased 8-Week Foundation</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <div class="flow-title">WEEK 6-8</div>
+                        <div class="flow-desc">Email about next steps</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box highlight">
+                        <div class="flow-title">UPSELL OFFER</div>
+                        <div class="flow-desc">12-Week Performance ($397) or Monthly ($37/mo)</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box highlight">
+                        <div class="flow-title">CONVERSION</div>
+                        <div class="flow-desc">20-30% upgrade</div>
+                    </div>
+                </div>
+
+                <div class="notes-box">
+                    <div class="notes-title">📊 CONVERSION BENCHMARKS</div>
+                    <div class="notes-text">
+                        <strong>Cold Traffic → Lead:</strong> 20-30% opt-in (good)<br>
+                        <strong>Lead → Customer:</strong> 5-10% conversion (good)<br>
+                        <strong>Customer → Upsell:</strong> 20-30% upgrade (good)<br>
+                        <strong>Overall (Cold → Sale):</strong> 1-3% is normal for info products
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: 12-MONTH TIMELINE -->
+        <div class="section" id="timeline">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2 class="section-title">12-MONTH <span>CRITICAL PATH</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p class="subtitle">Month-by-month roadmap with major milestones</p>
+                
+                <div class="timeline">
+                    <!-- MONTH 1-3 -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-month">MONTHS 1-3</div>
+                        <div class="timeline-phase">PHASE 1: VALIDATE</div>
+                        <div class="timeline-tasks">
+                            <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--red); margin-bottom: 15px;">
+                                Goal: Prove the concept, get testimonials, build foundation
+                            </h4>
+                            <ul class="checklist">
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="nate-conversation"></div>
+                                    <div class="task-text">
+                                        <strong>Have initial conversation with Nate</strong><br>
+                                        <span class="priority-badge p1">P1</span> Pitch the idea, gauge interest, discuss partnership structure
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="film-first-videos"></div>
+                                    <div class="task-text">
+                                        <strong>Film first batch of content (10-15 videos)</strong><br>
+                                        <span class="priority-badge p1">P1</span> Exercise demos, basic educational content
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="create-lead-magnet"></div>
+                                    <div class="task-text">
+                                        <strong>Create "5 Exercises" ebook lead magnet</strong><br>
+                                        <span class="priority-badge p1">P1</span> Design in Canva, include exercise photos/descriptions
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="setup-ghl"></div>
+                                    <div class="task-text">
+                                        <strong>Set up GHL infrastructure</strong><br>
+                                        <span class="priority-badge p1">P1</span> Landing page, email sequences, forms, community
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="build-8week-program"></div>
+                                    <div class="task-text">
+                                        <strong>Build 8-Week Foundation Program</strong><br>
+                                        <span class="priority-badge p1">P1</span> Nate creates workouts, film all demos, upload to TrainHeroic
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="launch-social"></div>
+                                    <div class="task-text">
+                                        <strong>Launch social media presence</strong><br>
+                                        <span class="priority-badge p2">P2</span> Instagram, TikTok, YouTube - start posting 3-5x/week
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="first-sales"></div>
+                                    <div class="task-text">
+                                        <strong>Get first 10-30 sales organically</strong><br>
+                                        <span class="priority-badge p1">P1</span> Friends, Nate's students, warm network
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="collect-testimonials"></div>
+                                    <div class="task-text">
+                                        <strong>Collect first 5-10 testimonials</strong><br>
+                                        <span class="priority-badge p1">P1</span> Email, video, written - use in marketing
+                                    </div>
+                                </li>
+                            </ul>
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(196, 30, 58, 0.1); border-radius: 8px; border-left: 4px solid var(--red);">
+                                <strong style="color: var(--red);">Target Revenue:</strong> $1k-3k
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MONTH 4-6 -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-month">MONTHS 4-6</div>
+                        <div class="timeline-phase">PHASE 2: BUILD</div>
+                        <div class="timeline-tasks">
+                            <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--red); margin-bottom: 15px;">
+                                Goal: Expand product line, grow audience, test ads
+                            </h4>
+                            <ul class="checklist">
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="create-ebook"></div>
+                                    <div class="task-text">
+                                        <strong>Create "BJJ Strength Fundamentals" ebook</strong><br>
+                                        <span class="priority-badge p2">P2</span> 30-50 pages, sell for $27-47
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="build-12week"></div>
+                                    <div class="task-text">
+                                        <strong>Build 12-Week Performance Program</strong><br>
+                                        <span class="priority-badge p2">P2</span> Advanced version, sell for $397
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="launch-monthly"></div>
+                                    <div class="task-text">
+                                        <strong>Launch Foundation Membership ($37/mo)</strong><br>
+                                        <span class="priority-badge p1">P1</span> Monthly programming, community, Q&A calls
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="grow-audience"></div>
+                                    <div class="task-text">
+                                        <strong>Grow to 5k+ followers across platforms</strong><br>
+                                        <span class="priority-badge p2">P2</span> Consistent posting, engagement, collaborations
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="email-list"></div>
+                                    <div class="task-text">
+                                        <strong>Build email list to 500-1000</strong><br>
+                                        <span class="priority-badge p2">P2</span> Lead magnet conversions, organic growth
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="test-ads"></div>
+                                    <div class="task-text">
+                                        <strong>Start small ad tests ($500-1k/mo)</strong><br>
+                                        <span class="priority-badge p2">P2</span> Meta ads, test creative, find what works
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="first-seminar"></div>
+                                    <div class="task-text">
+                                        <strong>Book and deliver 2-3 gym seminars</strong><br>
+                                        <span class="priority-badge p2">P2</span> Free workshops, film everything, collect emails
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="launch-group-coaching"></div>
+                                    <div class="task-text">
+                                        <strong>Launch first group coaching cohort</strong><br>
+                                        <span class="priority-badge p3">P3</span> 10-20 people, $997 for 12 weeks
+                                    </div>
+                                </li>
+                            </ul>
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(196, 30, 58, 0.1); border-radius: 8px; border-left: 4px solid var(--red);">
+                                <strong style="color: var(--red);">Target Revenue:</strong> $5k-10k/mo
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MONTH 7-9 -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-month">MONTHS 7-9</div>
+                        <div class="timeline-phase">PHASE 3: SCALE</div>
+                        <div class="timeline-tasks">
+                            <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--red); margin-bottom: 15px;">
+                                Goal: Scale what works, systemize, increase revenue
+                            </h4>
+                            <ul class="checklist">
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="referral-program"></div>
+                                    <div class="task-text">
+                                        <strong>Launch referral program</strong><br>
+                                        <span class="priority-badge p2">P2</span> 20-30% commission for affiliates
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="scale-ads"></div>
+                                    <div class="task-text">
+                                        <strong>Scale ad spend to $2-3k/mo</strong><br>
+                                        <span class="priority-badge p2">P2</span> Double down on winning creative
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="more-seminars"></div>
+                                    <div class="task-text">
+                                        <strong>Book 4-6 more gym seminars</strong><br>
+                                        <span class="priority-badge p2">P2</span> Expand reach, build local presence
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="equipment-affiliates"></div>
+                                    <div class="task-text">
+                                        <strong>Set up equipment affiliate partnerships</strong><br>
+                                        <span class="priority-badge p3">P3</span> Rogue, Sorinex - earn 5-7% commissions
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="hire-va"></div>
+                                    <div class="task-text">
+                                        <strong>Hire VA for video editing</strong><br>
+                                        <span class="priority-badge p2">P2</span> $300-500/mo, free up Nate's time
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="performance-membership"></div>
+                                    <div class="task-text">
+                                        <strong>Launch Performance Membership ($97/mo)</strong><br>
+                                        <span class="priority-badge p2">P2</span> Upsell from Foundation tier
+                                    </div>
+                                </li>
+                            </ul>
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(196, 30, 58, 0.1); border-radius: 8px; border-left: 4px solid var(--red);">
+                                <strong style="color: var(--red);">Target Revenue:</strong> $15k-20k/mo
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MONTH 10-12 -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-month">MONTHS 10-12</div>
+                        <div class="timeline-phase">PHASE 4: OPTIMIZE</div>
+                        <div class="timeline-tasks">
+                            <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--red); margin-bottom: 15px;">
+                                Goal: Optimize systems, maximize revenue, plan Year 2
+                            </h4>
+                            <ul class="checklist">
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="elite-coaching"></div>
+                                    <div class="task-text">
+                                        <strong>Launch Elite Coaching tier ($297/mo)</strong><br>
+                                        <span class="priority-badge p2">P2</span> Limited to 5-10 athletes, high-touch
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="black-friday"></div>
+                                    <div class="task-text">
+                                        <strong>Black Friday / Cyber Monday promo</strong><br>
+                                        <span class="priority-badge p1">P1</span> Limited-time discount, push hard
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="systemize-content"></div>
+                                    <div class="task-text">
+                                        <strong>Systemize content production</strong><br>
+                                        <span class="priority-badge p2">P2</span> Batch filming, VA editing, scheduler posting
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="case-studies"></div>
+                                    <div class="task-text">
+                                        <strong>Create 3-5 detailed case studies</strong><br>
+                                        <span class="priority-badge p2">P2</span> Before/after, testimonials, results
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="year-2-plan"></div>
+                                    <div class="task-text">
+                                        <strong>Plan Year 2 strategy</strong><br>
+                                        <span class="priority-badge p2">P2</span> B2B gym owner offer, certification, scaling
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <div class="checkbox" data-task="revenue-target"></div>
+                                    <div class="task-text">
+                                        <strong>Hit $25k+/mo revenue target</strong><br>
+                                        <span class="priority-badge p1">P1</span> Combination of all revenue streams
+                                    </div>
+                                </li>
+                            </ul>
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(196, 30, 58, 0.1); border-radius: 8px; border-left: 4px solid var(--red);">
+                                <strong style="color: var(--red);">Target Revenue:</strong> $25k+/mo
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 5: CONTENT PRODUCTION -->
+        <div class="section" id="content">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2 class="section-title">CONTENT <span>PRODUCTION PLAN</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p class="subtitle">What to create, when to create it, and how to batch produce</p>
+                
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin-bottom: 20px; color: var(--red);">
+                    CONTENT TYPES & FREQUENCY
+                </h3>
+
+                <div class="content-grid">
+                    <div class="content-card">
+                        <div class="content-type">EXERCISE DEMOS</div>
+                        <div class="content-frequency">3-5x per week</div>
+                        <div class="content-examples">
+                            30-60 second clips showing proper form, common mistakes, progressions
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="content-type">BJJ → STRENGTH</div>
+                        <div class="content-frequency">2-3x per week</div>
+                        <div class="content-examples">
+                            Show BJJ move, identify strength component, demonstrate 3 exercises
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="content-type">EDUCATIONAL</div>
+                        <div class="content-frequency">1-2x per week</div>
+                        <div class="content-examples">
+                            Program design, common mistakes, myth busting, how-to guides
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="content-type">INTERVIEWS</div>
+                        <div class="content-frequency">1x per week</div>
+                        <div class="content-examples">
+                            60-90 second clips with black/brown belts, competitors, gym owners
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="content-type">Q&A / DEEP DIVES</div>
+                        <div class="content-frequency">1x per week</div>
+                        <div class="content-examples">
+                            10-15 minute YouTube videos, use Opus to create 10+ shorts from each
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="content-type">BEHIND THE SCENES</div>
+                        <div class="content-frequency">1x per week</div>
+                        <div class="content-examples">
+                            Day in the life, training sessions at APU, Nate's own workouts
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin: 40px 0 20px; color: var(--red);">
+                    BATCH FILMING SCHEDULE
+                </h3>
+
+                <div style="background: var(--black); padding: 30px; border-radius: 8px; margin-bottom: 30px;">
+                    <h4 style="font-family: 'Bebas Neue', sans-serif; color: var(--red); margin-bottom: 20px;">
+                        ONE FILMING DAY (4 HOURS) = 30 DAYS OF CONTENT
+                    </h4>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                        <div>
+                            <h5 style="color: var(--silver); margin-bottom: 10px; font-size: 16px;">MORNING SESSION (2 hours)</h5>
+                            <ul style="color: var(--silver); font-size: 14px; line-height: 2;">
+                                <li>✓ 10 exercise demos (5 min each)</li>
+                                <li>✓ 5 BJJ → Strength videos (10 min each)</li>
+                                <li>✓ 3 educational videos (10 min each)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 style="color: var(--silver); margin-bottom: 10px; font-size: 16px;">AFTERNOON SESSION (2 hours)</h5>
+                            <ul style="color: var(--silver); font-size: 14px; line-height: 2;">
+                                <li>✓ 2-3 interviews (20 min each)</li>
+                                <li>✓ 1 long-form Q&A (30-45 min)</li>
+                                <li>✓ 2-3 behind-the-scenes clips</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 30px; padding: 20px; background: rgba(196, 30, 58, 0.1); border-radius: 8px; border-left: 4px solid var(--red);">
+                        <strong style="color: var(--red);">RESULT:</strong> 18+ raw videos → edited into 30+ final pieces → posted over 30 days
+                    </div>
+                </div>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin-bottom: 20px; color: var(--red);">
+                    EDITING WORKFLOW
+                </h3>
+
+                <div class="flowchart">
+                    <div class="flow-box">
+                        <div class="flow-title">FILM</div>
+                        <div class="flow-desc">4 hours of raw footage</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <div class="flow-title">UPLOAD</div>
+                        <div class="flow-desc">Descript auto-transcribes overnight</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box highlight">
+                        <div class="flow-title">EDIT</div>
+                        <div class="flow-desc">2-3 hours in Descript (text editing)</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <div class="flow-title">OPUS</div>
+                        <div class="flow-desc">Long videos → 10+ shorts</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box highlight">
+                        <div class="flow-title">POLISH</div>
+                        <div class="flow-desc">CapCut for effects/music (1 hour)</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <div class="flow-title">SCHEDULE</div>
+                        <div class="flow-desc">GHL or Buffer for posting</div>
+                    </div>
+                </div>
+
+                <div class="notes-box">
+                    <div class="notes-title">🎬 PRODUCTION TIPS</div>
+                    <div class="notes-text">
+                        <strong>Equipment needed:</strong> Phone camera (iPhone 13+), ring light ($50), lapel mic ($30), simple background<br>
+                        <strong>Editing tools:</strong> Descript ($24/mo), Opus Clip ($19/mo), CapCut (FREE)<br>
+                        <strong>Total time:</strong> 4 hours filming + 4 hours editing = 8 hours for 30 days of content
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 6: MARKETING STRATEGY -->
+        <div class="section" id="marketing">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2 class="section-title">MARKETING <span>STRATEGY</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p class="subtitle">Organic growth, partnerships, and paid advertising timeline</p>
+                
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin-bottom: 20px; color: var(--red);">
+                    ORGANIC MARKETING (Months 1-12)
+                </h3>
+
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 40px;">
+                    <div style="background: var(--black); padding: 25px; border-radius: 8px; border-left: 4px solid var(--red);">
+                        <h4 style="font-family: 'Bebas Neue', sans-serif; color: var(--red); margin-bottom: 15px;">SOCIAL MEDIA</h4>
+                        <ul style="color: var(--silver); font-size: 14px; line-height: 2; list-style: none;">
+                            <li>✓ Instagram: 4-5 Reels/week</li>
+                            <li>✓ TikTok: 4-5 videos/week</li>
+                            <li>✓ YouTube Shorts: 2-3/week</li>
+                            <li>✓ YouTube Long-form: 1/week</li>
+                            <li>✓ Engage: Comments, DMs, collabs</li>
+                        </ul>
+                        <div style="margin-top: 15px; padding: 10px; background: rgba(196, 30, 58, 0.1); border-radius: 4px;">
+                            <strong style="color: var(--red);">Goal:</strong> 10k+ followers by Month 12
+                        </div>
+                    </div>
+
+                    <div style="background: var(--black); padding: 25px; border-radius: 8px; border-left: 4px solid var(--red);">
+                        <h4 style="font-family: 'Bebas Neue', sans-serif; color: var(--red); margin-bottom: 15px;">REDDIT / FORUMS</h4>
+                        <ul style="color: var(--silver); font-size: 14px; line-height: 2; list-style: none;">
+                            <li>✓ r/bjj (600k+ members)</li>
+                            <li>✓ r/fitness, r/strength_training</li>
+                            <li>✓ Answer questions genuinely</li>
+                            <li>✓ Share helpful content (not salesy)</li>
+                            <li>✓ Build credibility over time</li>
+                        </ul>
+                        <div style="margin-top: 15px; padding: 10px; background: rgba(196, 30, 58, 0.1); border-radius: 4px;">
+                            <strong style="color: var(--red);">Goal:</strong> Known expert in r/bjj
+                        </div>
+                    </div>
+
+                    <div style="background: var(--black); padding: 25px; border-radius: 8px; border-left: 4px solid var(--red);">
+                        <h4 style="font-family: 'Bebas Neue', sans-serif; color: var(--red); margin-bottom: 15px;">GYM SEMINARS</h4>
+                        <ul style="color: var(--silver); font-size: 14px; line-height: 2; list-style: none;">
+                            <li>✓ Free 90-min workshops</li>
+                            <li>✓ 2-4 per month (local gyms)</li>
+                            <li>✓ Film everything for content</li>
+                            <li>✓ Collect emails at the door</li>
+                            <li>✓ Build local reputation</li>
+                        </ul>
+                        <div style="margin-top: 15px; padding: 10px; background: rgba(196, 30, 58, 0.1); border-radius: 4px;">
+                            <strong style="color: var(--red);">Goal:</strong> 20+ seminars in Year 1
+                        </div>
+                    </div>
+
+                    <div style="background: var(--black); padding: 25px; border-radius: 8px; border-left: 4px solid var(--red);">
+                        <h4 style="font-family: 'Bebas Neue', sans-serif; color: var(--red); margin-bottom: 15px;">PARTNERSHIPS</h4>
+                        <ul style="color: var(--silver); font-size: 14px; line-height: 2; list-style: none;">
+                            <li>✓ Equipment affiliates (Rogue, Sorinex)</li>
+                            <li>✓ BJJ influencer collabs</li>
+                            <li>✓ Podcast appearances</li>
+                            <li>✓ Guest posts on BJJ blogs</li>
+                            <li>✓ Gym partnerships (ongoing)</li>
+                        </ul>
+                        <div style="margin-top: 15px; padding: 10px; background: rgba(196, 30, 58, 0.1); border-radius: 4px;">
+                            <strong style="color: var(--red);">Goal:</strong> 10+ active partnerships
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin-bottom: 20px; color: var(--red);">
+                    PAID ADVERTISING TIMELINE
+                </h3>
+
+                <div class="timeline" style="padding-left: 40px;">
+                    <div class="timeline-item" style="margin-bottom: 30px;">
+                        <div class="timeline-marker" style="background: var(--silver);"></div>
+                        <div style="background: var(--black); padding: 20px; border-radius: 8px;">
+                            <h4 style="color: var(--red); margin-bottom: 10px;">MONTHS 1-3: NO ADS</h4>
+                            <p style="color: var(--silver); font-size: 14px;">Focus: Organic only. Prove product-market fit. Get testimonials. Build email list organically.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" style="margin-bottom: 30px;">
+                        <div class="timeline-marker" style="background: var(--yellow);"></div>
+                        <div style="background: var(--black); padding: 20px; border-radius: 8px;">
+                            <h4 style="color: var(--red); margin-bottom: 10px;">MONTHS 4-6: SMALL TESTS ($500-1k/mo)</h4>
+                            <p style="color: var(--silver); font-size: 14px; margin-bottom: 10px;">
+                                <strong>Platform:</strong> Meta (Facebook + Instagram)<br>
+                                <strong>Goal:</strong> Test creative, find winning ads, learn the system<br>
+                                <strong>Expected:</strong> Lose money, build data, warm up pixel
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" style="margin-bottom: 30px;">
+                        <div class="timeline-marker" style="background: var(--yellow);"></div>
+                        <div style="background: var(--black); padding: 20px; border-radius: 8px;">
+                            <h4 style="color: var(--red); margin-bottom: 10px;">MONTHS 7-9: SCALE ($2-3k/mo)</h4>
+                            <p style="color: var(--silver); font-size: 14px; margin-bottom: 10px;">
+                                <strong>Platform:</strong> Meta + YouTube (if budget allows)<br>
+                                <strong>Goal:</strong> Double down on winners, optimize funnel<br>
+                                <strong>Expected:</strong> Break even or small profit
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker" style="background: var(--green);"></div>
+                        <div style="background: var(--black); padding: 20px; border-radius: 8px;">
+                            <h4 style="color: var(--red); margin-bottom: 10px;">MONTHS 10-12: PROFITABLE ($5k+/mo)</h4>
+                            <p style="color: var(--silver); font-size: 14px; margin-bottom: 10px;">
+                                <strong>Platform:</strong> Meta + YouTube + Retargeting<br>
+                                <strong>Goal:</strong> Profitable ads, scale aggressively<br>
+                                <strong>Expected:</strong> 10-30% profit margins on ad spend
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notes-box">
+                    <div class="notes-title">🎯 AD TARGETING</div>
+                    <div class="notes-text">
+                        <strong>Primary Audience:</strong> Men 25-45, US, interested in BJJ/MMA, income $50k+, fitness enthusiasts<br>
+                        <strong>Ad Creative:</strong> 30-60 sec videos showing BJJ → strength connection, testimonials, Nate's credibility<br>
+                        <strong>Benchmarks:</strong> $2-5 cost per lead, 5-10% lead → customer conversion, break even by Month 6
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 7: REVENUE TRACKER -->
+        <div class="section" id="revenue">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2 class="section-title">REVENUE <span>PROJECTIONS</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p class="subtitle">Month-by-month targets and revenue stream breakdown</p>
+                
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin-bottom: 20px; color: var(--red);">
+                    YEAR 1 REVENUE GOALS
+                </h3>
+
+                <div class="revenue-grid">
+                    <div class="revenue-card">
+                        <div class="revenue-label">Months 1-3</div>
+                        <div class="revenue-amount">$1-3k</div>
+                        <div style="color: var(--silver); font-size: 13px; margin-top: 10px;">Validation phase</div>
+                    </div>
+
+                    <div class="revenue-card">
+                        <div class="revenue-label">Months 4-6</div>
+                        <div class="revenue-amount">$5-10k</div>
+                        <div style="color: var(--silver); font-size: 13px; margin-top: 10px;">Growth phase</div>
+                    </div>
+
+                    <div class="revenue-card">
+                        <div class="revenue-label">Months 7-9</div>
+                        <div class="revenue-amount">$15-20k</div>
+                        <div style="color: var(--silver); font-size: 13px; margin-top: 10px;">Scale phase</div>
+                    </div>
+
+                    <div class="revenue-card">
+                        <div class="revenue-label">Months 10-12</div>
+                        <div class="revenue-amount">$25k+</div>
+                        <div style="color: var(--silver); font-size: 13px; margin-top: 10px;">Optimize phase</div>
+                    </div>
+
+                    <div class="revenue-card" style="grid-column: 1 / -1; border-color: var(--red);">
+                        <div class="revenue-label">YEAR 1 TOTAL</div>
+                        <div class="revenue-amount" style="font-size: 48px;">$100-180k</div>
+                        <div style="color: var(--silver); font-size: 13px; margin-top: 10px;">Conservative to aggressive scenario</div>
+                    </div>
+                </div>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin: 40px 0 20px; color: var(--red);">
+                    MONTH 12 REVENUE BREAKDOWN (Target)
+                </h3>
+
+                <div style="background: var(--black); padding: 30px; border-radius: 8px;">
+                    <table style="width: 100%; color: var(--silver);">
+                        <tr style="border-bottom: 2px solid var(--red);">
+                            <th style="text-align: left; padding: 15px; font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--red);">Revenue Stream</th>
+                            <th style="text-align: center; padding: 15px; font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--red);">Units</th>
+                            <th style="text-align: right; padding: 15px; font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--red);">Revenue</th>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--dark-grey);">
+                            <td style="padding: 15px;">Foundation Membership ($37/mo)</td>
+                            <td style="text-align: center; padding: 15px;">200 members</td>
+                            <td style="text-align: right; padding: 15px; font-weight: 700;">$7,400</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--dark-grey);">
+                            <td style="padding: 15px;">8-Week Foundation ($147 one-time)</td>
+                            <td style="text-align: center; padding: 15px;">15 sales</td>
+                            <td style="text-align: right; padding: 15px; font-weight: 700;">$2,205</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--dark-grey);">
+                            <td style="padding: 15px;">Performance Membership ($97/mo)</td>
+                            <td style="text-align: center; padding: 15px;">30 members</td>
+                            <td style="text-align: right; padding: 15px; font-weight: 700;">$2,910</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--dark-grey);">
+                            <td style="padding: 15px;">12-Week Performance ($397 one-time)</td>
+                            <td style="text-align: center; padding: 15px;">10 sales</td>
+                            <td style="text-align: right; padding: 15px; font-weight: 700;">$3,970</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--dark-grey);">
+                            <td style="padding: 15px;">Elite Coaching ($297/mo)</td>
+                            <td style="text-align: center; padding: 15px;">5 members</td>
+                            <td style="text-align: right; padding: 15px; font-weight: 700;">$1,485</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--dark-grey);">
+                            <td style="padding: 15px;">Ebook ($47 one-time)</td>
+                            <td style="text-align: center; padding: 15px;">20 sales</td>
+                            <td style="text-align: right; padding: 15px; font-weight: 700;">$940</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--dark-grey);">
+                            <td style="padding: 15px;">Equipment Affiliates (commissions)</td>
+                            <td style="text-align: center; padding: 15px;">-</td>
+                            <td style="text-align: right; padding: 15px; font-weight: 700;">$500</td>
+                        </tr>
+                        <tr style="background: rgba(196, 30, 58, 0.1);">
+                            <td style="padding: 15px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--red);">TOTAL</td>
+                            <td style="text-align: center; padding: 15px;"></td>
+                            <td style="text-align: right; padding: 15px; font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--red);">$19,410</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="notes-box" style="margin-top: 30px;">
+                    <div class="notes-title">💰 REVENUE NOTES</div>
+                    <div class="notes-text">
+                        These are CONSERVATIVE projections. With good execution, revenue could be 50-100% higher. B2B gym owner revenue (Year 2+) could add another $100-300k/year. Focus on recurring revenue (monthly memberships) for stability.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 8: TECH STACK -->
+        <div class="section" id="tools">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2 class="section-title">TECH <span>STACK</span> & TOOLS</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p class="subtitle">What tools to use, when to add them, and what they cost</p>
+
+                <table class="tools-table">
+                    <thead>
+                        <tr>
+                            <th>Tool</th>
+                            <th>Purpose</th>
+                            <th>Cost</th>
+                            <th>When to Add</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>GoHighLevel</strong></td>
+                            <td>CRM, landing pages, email, community, calendars, courses</td>
+                            <td>$297/mo</td>
+                            <td>Month 1</td>
+                            <td><span class="status-badge active">ACTIVE</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>TrainHeroic</strong></td>
+                            <td>Workout delivery, progress tracking, exercise library</td>
+                            <td>$40/mo</td>
+                            <td>Month 1</td>
+                            <td><span class="status-badge planned">PLANNED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Canva Pro</strong></td>
+                            <td>Graphics, ebook design, thumbnails, social posts</td>
+                            <td>$13/mo</td>
+                            <td>Month 1</td>
+                            <td><span class="status-badge planned">PLANNED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>CapCut</strong></td>
+                            <td>Video editing (basic, mobile + desktop)</td>
+                            <td>FREE</td>
+                            <td>Month 1</td>
+                            <td><span class="status-badge planned">PLANNED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Descript</strong></td>
+                            <td>AI video editing, transcription, captions</td>
+                            <td>$24/mo</td>
+                            <td>Month 3-4</td>
+                            <td><span class="status-badge planned">PLANNED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Opus Clip</strong></td>
+                            <td>Turn long videos into viral shorts (AI)</td>
+                            <td>$19/mo</td>
+                            <td>Month 4-6</td>
+                            <td><span class="status-badge planned">PLANNED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Meta Ads Manager</strong></td>
+                            <td>Facebook + Instagram advertising</td>
+                            <td>FREE (ad spend separate)</td>
+                            <td>Month 4-6</td>
+                            <td><span class="status-badge planned">PLANNED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Buffer/Later</strong></td>
+                            <td>Social media scheduling</td>
+                            <td>$0-15/mo</td>
+                            <td>Month 4-6</td>
+                            <td><span class="status-badge planned">PLANNED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Epidemic Sound</strong></td>
+                            <td>Copyright-free music for videos</td>
+                            <td>$15/mo</td>
+                            <td>Month 6+</td>
+                            <td><span class="status-badge planned">PLANNED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>VA/Editor</strong></td>
+                            <td>Video editing, content management</td>
+                            <td>$300-500/mo</td>
+                            <td>Month 7-9</td>
+                            <td><span class="status-badge planned">PLANNED</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <div style="background: var(--black); padding: 20px; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 14px; color: var(--silver); margin-bottom: 10px;">MONTHS 1-3</div>
+                        <div style="font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--red);">$350/mo</div>
+                        <div style="font-size: 13px; color: var(--silver); margin-top: 10px;">GHL + TrainHeroic + Canva</div>
+                    </div>
+
+                    <div style="background: var(--black); padding: 20px; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 14px; color: var(--silver); margin-bottom: 10px;">MONTHS 4-6</div>
+                        <div style="font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--red);">$430/mo</div>
+                        <div style="font-size: 13px; color: var(--silver); margin-top: 10px;">+ Descript, Opus, Buffer</div>
+                    </div>
+
+                    <div style="background: var(--black); padding: 20px; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 14px; color: var(--silver); margin-bottom: 10px;">MONTHS 7-12</div>
+                        <div style="font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--red);">$750/mo</div>
+                        <div style="font-size: 13px; color: var(--silver); margin-top: 10px;">+ VA/Editor</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 9: MASTER TASK CHECKLIST -->
+        <div class="section" id="tasks">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2 class="section-title">MASTER <span>TASK CHECKLIST</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p class="subtitle">Every major task from launch to Month 12</p>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="task-progress-bar" style="width: 0%;">0%</div>
+                </div>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin: 30px 0 20px; color: var(--red);">
+                    FOUNDATION TASKS (Do These First)
+                </h3>
+
+                <ul class="checklist">
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-nate-convo"></div>
+                        <div class="task-text">
+                            <strong>Present business plan to Nate, get buy-in</strong><br>
+                            <span class="priority-badge p1">P1</span> Show him this dashboard, discuss partnership structure (60/40 split)
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-decide-pricing"></div>
+                        <div class="task-text">
+                            <strong>Finalize pricing model (one-time vs. monthly)</strong><br>
+                            <span class="priority-badge p1">P1</span> Start with $147 one-time, add monthly later based on feedback
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-brand-assets"></div>
+                        <div class="task-text">
+                            <strong>Create brand assets (logo, colors, fonts)</strong><br>
+                            <span class="priority-badge p2">P2</span> Black/red/silver color scheme, Bebas Neue + Roboto fonts
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-domain"></div>
+                        <div class="task-text">
+                            <strong>Buy domain: blackbeltstrength.com</strong><br>
+                            <span class="priority-badge p2">P2</span> Also grab .co, .net if available
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-social-handles"></div>
+                        <div class="task-text">
+                            <strong>Secure social media handles (@blackbeltstrength)</strong><br>
+                            <span class="priority-badge p2">P2</span> Instagram, TikTok, YouTube, Facebook
+                        </div>
+                    </li>
+                </ul>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin: 40px 0 20px; color: var(--red);">
+                    CONTENT CREATION TASKS
+                </h3>
+
+                <ul class="checklist">
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-film-batch-1"></div>
+                        <div class="task-text">
+                            <strong>Film first content batch (20-30 videos)</strong><br>
+                            <span class="priority-badge p1">P1</span> Exercise demos, educational content, Nate's story
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-edit-batch-1"></div>
+                        <div class="task-text">
+                            <strong>Edit and schedule first 30 days of content</strong><br>
+                            <span class="priority-badge p1">P1</span> Use CapCut, add captions, schedule in Buffer/GHL
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-youtube-channel"></div>
+                        <div class="task-text">
+                            <strong>Set up YouTube channel (branding, about, playlists)</strong><br>
+                            <span class="priority-badge p2">P2</span> Banner, profile pic, channel description
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-content-calendar"></div>
+                        <div class="task-text">
+                            <strong>Create 90-day content calendar</strong><br>
+                            <span class="priority-badge p2">P2</span> Plan topics, themes, series
+                        </div>
+                    </li>
+                </ul>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin: 40px 0 20px; color: var(--red);">
+                    PRODUCT DEVELOPMENT TASKS
+                </h3>
+
+                <ul class="checklist">
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-lead-magnet-create"></div>
+                        <div class="task-text">
+                            <strong>Design "5 Exercises" ebook in Canva</strong><br>
+                            <span class="priority-badge p1">P1</span> 10-15 pages, photos, descriptions, PDF download
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-8week-program"></div>
+                        <div class="task-text">
+                            <strong>Nate creates 8-Week Foundation Program</strong><br>
+                            <span class="priority-badge p1">P1</span> 16 workouts, exercise library, upload to TrainHeroic
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-sales-page"></div>
+                        <div class="task-text">
+                            <strong>Build sales page for 8-Week Foundation</strong><br>
+                            <span class="priority-badge p1">P1</span> Long-form copy, testimonials, FAQs, guarantee
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-email-sequence"></div>
+                        <div class="task-text">
+                            <strong>Write 5-7 email nurture sequence</strong><br>
+                            <span class="priority-badge p1">P1</span> Value emails → soft pitch → hard pitch
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-12week-program"></div>
+                        <div class="task-text">
+                            <strong>Create 12-Week Performance Program</strong><br>
+                            <span class="priority-badge p3">P3</span> Advanced tier, add in Month 4-6
+                        </div>
+                    </li>
+                </ul>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin: 40px 0 20px; color: var(--red);">
+                    TECHNICAL SETUP TASKS
+                </h3>
+
+                <ul class="checklist">
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-ghl-setup"></div>
+                        <div class="task-text">
+                            <strong>Set up GHL account and sub-account</strong><br>
+                            <span class="priority-badge p1">P1</span> Connect domain, configure settings
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-landing-page"></div>
+                        <div class="task-text">
+                            <strong>Build lead magnet landing page in GHL</strong><br>
+                            <span class="priority-badge p1">P1</span> Opt-in form, thank you page, email delivery
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-payment-setup"></div>
+                        <div class="task-text">
+                            <strong>Set up Stripe for payments</strong><br>
+                            <span class="priority-badge p1">P1</span> Connect to GHL, test transactions
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-trainheroic"></div>
+                        <div class="task-text">
+                            <strong>Set up TrainHeroic account</strong><br>
+                            <span class="priority-badge p1">P1</span> Upload programs, test delivery
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-automation"></div>
+                        <div class="task-text">
+                            <strong>Build GHL automation workflows</strong><br>
+                            <span class="priority-badge p2">P2</span> Welcome emails, purchase confirmations, check-ins
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-community"></div>
+                        <div class="task-text">
+                            <strong>Set up GHL community platform</strong><br>
+                            <span class="priority-badge p2">P2</span> Create channels, welcome message, rules
+                        </div>
+                    </li>
+                </ul>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin: 40px 0 20px; color: var(--red);">
+                    MARKETING & GROWTH TASKS
+                </h3>
+
+                <ul class="checklist">
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-reddit-presence"></div>
+                        <div class="task-text">
+                            <strong>Build presence in r/bjj (answer questions, provide value)</strong><br>
+                            <span class="priority-badge p2">P2</span> 1-2 posts/week, genuine engagement
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-first-seminar"></div>
+                        <div class="task-text">
+                            <strong>Book and deliver first gym seminar</strong><br>
+                            <span class="priority-badge p1">P1</span> Pitch to 5-10 local gyms, get 1 yes
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-testimonials"></div>
+                        <div class="task-text">
+                            <strong>Collect 10+ testimonials from beta customers</strong><br>
+                            <span class="priority-badge p1">P1</span> Video, written, before/after
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-ad-creative"></div>
+                        <div class="task-text">
+                            <strong>Create 5-10 ad creative variations</strong><br>
+                            <span class="priority-badge p2">P2</span> Videos, images, different hooks
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-first-ads"></div>
+                        <div class="task-text">
+                            <strong>Launch first ad campaigns (Meta, $500-1k budget)</strong><br>
+                            <span class="priority-badge p2">P2</span> Month 4-6, test and learn
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-partnerships"></div>
+                        <div class="task-text">
+                            <strong>Reach out to 10+ potential partners (equipment, influencers)</strong><br>
+                            <span class="priority-badge p3">P3</span> Rogue, Sorinex, BJJ YouTubers
+                        </div>
+                    </li>
+                </ul>
+
+                <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 20px; margin: 40px 0 20px; color: var(--red);">
+                    BUSINESS OPERATIONS TASKS
+                </h3>
+
+                <ul class="checklist">
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-partnership-agreement"></div>
+                        <div class="task-text">
+                            <strong>Formalize partnership agreement with Nate</strong><br>
+                            <span class="priority-badge p1">P1</span> Revenue split, roles, responsibilities
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-llc"></div>
+                        <div class="task-text">
+                            <strong>Form LLC (when revenue justifies it)</strong><br>
+                            <span class="priority-badge p3">P3</span> Wait until $5-10k/mo consistent revenue
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-bookkeeping"></div>
+                        <div class="task-text">
+                            <strong>Set up bookkeeping system (QuickBooks or Wave)</strong><br>
+                            <span class="priority-badge p2">P2</span> Track income, expenses, taxes
+                        </div>
+                    </li>
+                    <li class="checklist-item">
+                        <div class="checkbox" data-task="master-hire-va"></div>
+                        <div class="task-text">
+                            <strong>Hire VA for video editing</strong><br>
+                            <span class="priority-badge p3">P3</span> Month 7-9, $300-500/mo
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="notes-box" style="margin-top: 40px;">
+                    <div class="notes-title">✅ HOW TO USE THIS CHECKLIST</div>
+                    <div class="notes-text">
+                        Click checkboxes to mark tasks complete. Progress is saved in your browser. Tasks are color-coded: <span style="background: var(--red); color: white; padding: 2px 8px; border-radius: 12px;">P1</span> = Do First, <span style="background: var(--yellow); color: var(--black); padding: 2px 8px; border-radius: 12px;">P2</span> = Do Next, <span style="background: var(--silver); color: var(--black); padding: 2px 8px; border-radius: 12px;">P3</span> = Do Later
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // TOGGLE SECTIONS
+        function toggleSection(header) {
+            const section = header.parentElement;
+            const content = section.querySelector('.section-content');
+            
+            content.classList.toggle('collapsed');
+            section.classList.toggle('collapsed');
+        }
+
+        // CHECKBOX FUNCTIONALITY
+        const checkboxes = document.querySelectorAll('.checkbox');
+        
+        // Load saved state
+        checkboxes.forEach(checkbox => {
+            const taskId = checkbox.dataset.task;
+            const isChecked = localStorage.getItem(taskId) === 'true';
+            
+            if (isChecked) {
+                checkbox.classList.add('checked');
+                const taskText = checkbox.nextElementSibling;
+                if (taskText) taskText.classList.add('completed');
+            }
+            
+            // Add click handler
+            checkbox.addEventListener('click', function() {
+                const taskId = this.dataset.task;
+                const isChecked = this.classList.toggle('checked');
+                const taskText = this.nextElementSibling;
+                
+                if (taskText) {
+                    taskText.classList.toggle('completed');
+                }
+                
+                // Save state
+                localStorage.setItem(taskId, isChecked);
+                
+                // Update progress
+                updateProgress();
+            });
+        });
+
+        // UPDATE PROGRESS
+        function updateProgress() {
+            const totalTasks = checkboxes.length;
+            const completedTasks = document.querySelectorAll('.checkbox.checked').length;
+            const percentage = Math.round((completedTasks / totalTasks) * 100);
+            
+            // Update all progress indicators
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                bar.style.width = percentage + '%';
+                bar.textContent = percentage + '%';
+            });
+            
+            // Update summary
+            const summaryElement = document.getElementById('overall-progress');
+            if (summaryElement) {
+                summaryElement.textContent = percentage + '%';
+            }
+        }
+
+        // Initialize progress on load
+        updateProgress();
+
+        // SMOOTH SCROLLING FOR NAV LINKS
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // TIMELINE MARKERS - Mark as completed when all tasks in that section are done
+        function updateTimelineMarkers() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            timelineItems.forEach(item => {
+                const checkboxesInSection = item.querySelectorAll('.checkbox');
+                const checkedInSection = item.querySelectorAll('.checkbox.checked');
+                
+                if (checkboxesInSection.length > 0 && checkedInSection.length === checkboxesInSection.length) {
+                    const marker = item.querySelector('.timeline-marker');
+                    if (marker) marker.classList.add('completed');
+                }
+            });
+        }
+
+        // Update timeline markers on load and when checkboxes change
+        updateTimelineMarkers();
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('click', updateTimelineMarkers);
+        });
+    </script>
+</body>
+</html>
